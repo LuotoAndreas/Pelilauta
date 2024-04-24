@@ -9,9 +9,9 @@ def test_vt2(client):
 
 def test_vt2_params(client):
     reqdata = {
-        "x": "10",
-        "pelaaja1": "testipelaaja1",
-        "pelaaja2": "testipelaaja2"
+        "koko": "10",
+        "p1": "testipelaaja1",
+        "p2": "testipelaaja2"
     }
     response = client.get("/", query_string=reqdata)
     data = response.data.decode("UTF-8")
@@ -24,9 +24,9 @@ def test_vt2_params(client):
 
 def test_invalid_x(client):
     reqdata = {
-        "x": "foo",
-        "pelaaja1": "testipelaaja1",
-        "pelaaja2": "testipelaaja2"
+        "koko": "foo",
+        "p1": "testipelaaja1",
+        "p2": "testipelaaja2"
     }
     response = client.get("/", query_string=reqdata)
     assert 200 == response.status_code, 'Sovellus kaatuu epävalidilla laudan koolla'
@@ -34,7 +34,7 @@ def test_invalid_x(client):
 
 def test_puuttuvat_nimet(client):
     reqdata = {
-        "x": "foo",
+        "koko": "foo",
     }
     response = client.get("/", query_string=reqdata)
     assert 200 == response.status_code, 'Sovellus kaatuu, jos pelaajien nimet puuttuvat'
@@ -42,7 +42,7 @@ def test_puuttuvat_nimet(client):
 
 def test_puuttuvat_nimet(client):
     reqdata = {
-        "x": "-5",
+        "koko": "-5",
     }
     response = client.get("/", query_string=reqdata)
     assert 200 == response.status_code, 'Sovellus kaatuu, jos x on negatiivinen'
