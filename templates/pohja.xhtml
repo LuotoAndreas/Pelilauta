@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fi" xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='tyylit.css') }}" type="text/css" />
+<title>TIES4080 - Viikkotehtävä 2 - 2024 kesä</title>
+</head>
+
+<!-- täydennä lomaketta tarpeen mukaan. Älä kuitenkaan muuta kenttien nimiä -->
+<body>
+    <div class="everything">    
+        <h1>Pelilauta</h1>
+            <form method="post">
+                
+                <div class="form-container">
+                    <div class="form-item">
+                        <label for="size">Laudan koko</label>
+                        <div class="input-box">
+                            <input type="text" id="size" name="size" value="{{ board_size }}" />
+                            {% if error_message %}
+                                <span class="error">{{ error_message }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                
+                    <div class="form-item">
+                        <label for="player1">Pelaaja 1</label>
+                        <div class="input-box">
+                            <input type="text" id="player1" name="player1" value="{{ player1 }}" />
+                        </div>
+                    </div>
+                
+                    <div class="form-item">
+                        <label for="player2">Pelaaja 2</label>
+                        <div class="input-box">
+                            <input type="text" id="player2" name="player2" value="{{ player2 }}" />
+                        </div>
+                    </div>
+                
+                    
+                
+                    <div class="LuoButton">
+                        <button type="submit">Luo pelilauta</button>
+                    </div>
+                </div>
+            </form>
+        
+
+        <div class = "board-container">
+            <h2>{{ player1 }}</h2>
+            <table class="chess-board">
+                {% for row in range(board_size) %}
+                    <tr>
+                        {% for col in range(board_size) %}
+                            {% set color = 'white' if (row + col) % 2 == 0 else 'black' %}
+                            <td class="{{ color }}">
+                                {% if row == col %}
+                                    <img src="https://appro.mit.jyu.fi/ties4080/vt/vt2/2024/blue.svg" alt="Piece" />
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        <h2>{{ player2 }}</h2>
+
+        </div>
+    </div>
+    
+</body>
+
+
+
+<!-- Tästä eteenpäin on vain apuvälineenä käytettäviä skriptejä -->
+<!-- HTMLinspectoria käytetään sivun live-muutosten validointiin. Kannattaa
+vielä varmuuden vuoksi ajaa välillä myös W3C:n validaattori -->
+<script src="https://appro.mit.jyu.fi/tools/htmlinspector/html-inspector.js"></script>
+<!-- Sivun validoinnin W3C:n validaattorilla voit tehdä milloin tahansa näppäinyhdistelmällä CTRL+ALT+V -->
+<script src="https://appro.mit.jyu.fi/tools/validator/validator.user.js"></script>
+<script src="https://appro.mit.jyu.fi/tools/validator/xml-validator.js"></script>
+</body>
+</html>
+
+

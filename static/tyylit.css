@@ -1,0 +1,77 @@
+.everything {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-box {
+  flex: 2;
+  text-align: left;
+}
+
+.form-item label {
+  flex: 1;
+  text-align: left;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.LuoButton {
+  flex: 2;
+  text-align: center;
+  padding-top: 10px;
+}
+
+
+
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-left: 5px;
+}
+
+.chess-board {
+  margin: 20px 0;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+.chess-board td {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+
+.board-container h2 {
+  text-align: center;
+}
+
+.chess-board .black {
+  background-color: black;
+}
+
+.chess-board .white {
+  background-color: white;
+}
+
+.chess-board img {
+  width: 100%;
+  height: auto;
+}
