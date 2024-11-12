@@ -39,6 +39,11 @@ h1 {
   padding-top: 10px;
 }
 
+.ohjeet {
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+
 
 
 .error {

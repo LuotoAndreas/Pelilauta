@@ -17,28 +17,41 @@ def index():
     player2 = "Pelaaja 2"
     error_message = ""
 
-    if request.method == "POST":
-        # Otetaan käyttäjän syötteet talteen        
-        size_input = request.form.get("size", str(MIN_SIZE))
-
+    if request.method == "GET":
         try:
-            player1 = request.form.get("player1", "Pelaaja 1")
-            player2 = request.form.get("player2", "Pelaaja 2")
-
-            if player1 == "" or player2 == "":
-                raise ValueError("Nimi ei ole sallittu.")
-        except ValueError:
-            error_message = "Molempien pelaajien nimet pitää syöttää."
-
-
-
-        try:
+            # linkin syötteet talteen
+            size_input = request.args.get("koko", str(MIN_SIZE))
             board_size = int(size_input)
+
             if board_size < MIN_SIZE or board_size > MAX_SIZE:
-                raise ValueError("Koko ei ole sallittu.")
+                raise ValueError("Koko liian pieni tai liian suuri")
+            
+            player1 = request.args.get("p1", "Pelaaja 1")
+            player2 = request.args.get("p2", "Pelaaja 2")
+            
+            if not player1 or not player2:
+                raise ValueError("Pelaajan nimet puuttuvat")
+        except ValueError as e:
+            board_size = MIN_SIZE
+            error_message = f"Virheellinen syöte: {str(e)}"
+
+    if request.method == "POST":
+        # käyttäjän syötteet        
+        size_input = request.form.get("size", str(MIN_SIZE))  
+
+        try: 
+            board_size = int(size_input)            
+            if board_size < MIN_SIZE or board_size > MAX_SIZE:
+                raise ValueError("Koko liian pieni tai liian suuri")
         except ValueError:
             board_size = MIN_SIZE
-            error_message = "Syöttämäsi arvo ei kelpaa."
+            error_message = "Syöttämäsi koko ei ole kelvollinen, käytetään oletuskokoa."
+        
+        player1 = request.form.get("player1", "Pelaaja 1")
+        player2 = request.form.get("player2", "Pelaaja 2")
+
+        if not player1 or not player2:
+                raise ValueError("Pelaajan nimet puuttuvat")
 
     return render_template("pohja.xhtml", board_size = board_size, player1 = player1, player2 = player2, error_message = error_message)
 
