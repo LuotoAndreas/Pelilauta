@@ -18,40 +18,54 @@ def index():
     error_message = ""
 
     if request.method == "GET":
-        try:
-            # linkin syötteet talteen
+
+        # laudan koko talteen linkistä
+        try:            
             size_input = request.args.get("koko", str(MIN_SIZE))
             board_size = int(size_input)
 
             if board_size < MIN_SIZE or board_size > MAX_SIZE:
                 raise ValueError("Koko liian pieni tai liian suuri")
-            
+        
+        except ValueError as e:
+            board_size = MIN_SIZE
+            error_message = f"Virheellinen syöte: {str(e)}"
+        
+        # pelaajien nimet talteen linkistä
+        try:
             player1 = request.args.get("p1", "Pelaaja 1")
             player2 = request.args.get("p2", "Pelaaja 2")
             
             if not player1 or not player2:
-                raise ValueError("Pelaajan nimet puuttuvat")
+                raise ValueError("Pelaajien nimet puuttuvat")
         except ValueError as e:
-            board_size = MIN_SIZE
             error_message = f"Virheellinen syöte: {str(e)}"
 
     if request.method == "POST":
         # käyttäjän syötteet        
         size_input = request.form.get("size", str(MIN_SIZE))  
 
+        # katsotaan onko käyttäjän syöttämän kentän koko kelvollinen
         try: 
             board_size = int(size_input)            
             if board_size < MIN_SIZE or board_size > MAX_SIZE:
                 raise ValueError("Koko liian pieni tai liian suuri")
-        except ValueError:
-            board_size = MIN_SIZE
-            error_message = "Syöttämäsi koko ei ole kelvollinen, käytetään oletuskokoa."
         
-        player1 = request.form.get("player1", "Pelaaja 1")
-        player2 = request.form.get("player2", "Pelaaja 2")
+        # asetetaan minimikoko kentälle jos syöte oli epäkelpo
+        except ValueError as e:
+            board_size = MIN_SIZE
+            error_message = f"Virheellinen syöte: {str(e)}"
+        
+        # katsotaan onko syötettyjen pelaajien nimet kelvolliset
+        try:
+            player1 = request.form.get("player1", "Pelaaja 1")
+            player2 = request.form.get("player2", "Pelaaja 2")
 
-        if not player1 or not player2:
-                raise ValueError("Pelaajan nimet puuttuvat")
+            if not player1 or not player2:
+                raise ValueError("Pelaajien nimet puuttuvat")
+        # jos nimiä ei ole tai ne ovat kelvottomat niin asetetaan oikea virheviesti
+        except ValueError as e:
+            error_message = f"Virheellinen syöte: {str(e)}"
 
     return render_template("pohja.xhtml", board_size = board_size, player1 = player1, player2 = player2, error_message = error_message)
 
